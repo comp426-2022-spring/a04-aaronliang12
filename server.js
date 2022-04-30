@@ -76,6 +76,8 @@ app.use( (req, res, next) => {
         logdata.referer, logdata.useragent);
     next();
 })
+// Use morgan for logging to files
+// Create a write stream to append (flags: 'a') to a file
 
     function coinFlip() {
 	var randInt = Math.floor(Math.random()*2);
