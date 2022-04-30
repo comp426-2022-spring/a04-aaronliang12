@@ -36,8 +36,8 @@ const debug = args.debug || false
 const log = args.log || true;
 
 if (log == true) {
-    const accessLog = fs.createWriteStream('access.log', { flags: 'a' })
-    app.use(morgan('accesslog', { stream: accessLog }))
+    const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('accesslog', { stream: accesslog }))
   }
 
   if (debug) {
@@ -70,8 +70,8 @@ app.use( (req, res, next) => {
     }
 
 
-    const statement = db.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-    const info = statement.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, logdata.method,
+    const stmt = db.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    const info = stmt.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, logdata.method,
         logdata.url, logdata.protocol, logdata.httpversion, logdata.status,
         logdata.referer, logdata.useragent);
     next();
