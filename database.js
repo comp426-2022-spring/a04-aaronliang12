@@ -18,7 +18,7 @@ if (row === undefined) {
     console.log('Your database appears to be empty. I will initialize it now.');
 // Set a const that will contain your SQL commands to initialize the database.
     const sqlInit = `
-     Create table accesslog ( id INTEGER NOT NULL PRIMARY KEY, 
+     Create table accesslog ( id INTEGER PRIMARY KEY, 
         remoteaddr TEXT, remoteuser TEXT, time INTEGER, 
         method TEXT, url TEXT, protocol TEXT, 
         httpversion TEXT, status INTEGER, 
