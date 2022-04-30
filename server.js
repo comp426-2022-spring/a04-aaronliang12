@@ -5,6 +5,9 @@ const argv = minimist(process.argv.slice(2))
 const db = require("./database.js")
 const port = argv["port"] || 5000
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 args['port', 'help', 'debug', 'log']
 console.log(args)
 const help = (`
@@ -28,8 +31,30 @@ if (args.help || args.h) {
     console.log(help)
     process.exit(0)
 }
+app.use( (req, res, next) => {
+    // Your middleware goes here.
+    let logdata = {
+        remoteaddr: req.ip,
+        remoteuser: req.user,
+        time: Date.now(),
+        method: req.method,
+        url: req.url,
+        protocol: req.protocol,
+        httpversion: req.httpVersion,
+        status: res.statusCode,
+        referer: req.headers['referer'],
+        useragent: req.headers['user-agent']
+    }
 
-function coinFlip() {
+
+    const statement = database.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    const info = statement.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, logdata.method,
+        logdata.url, logdata.protocol, logdata.httpversion, logdata.status,
+        logdata.referer, logdata.useragent);
+    next();
+})
+
+    function coinFlip() {
 	var randInt = Math.floor(Math.random()*2);
 	if(randInt == 1){
 	  return "heads";
