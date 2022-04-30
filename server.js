@@ -30,24 +30,7 @@ if (args.help || args.h) {
     console.log(help)
     process.exit(0)
 }
-if (args.log) {
-    const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
-    app.use(morgan('combined', { stream: accesslog }))
-  }
 
-  if (args.debug) {
-    app.get('/app/log/access', (req, res) => {
-        try {
-            const stmt = db.prepare('SELECT * FROM accesslog').all();
-            res.status(200).json(stmt);
-        } catch (e) {
-            console.error(e);
-        }
-    })
-    app.get('/app/error', (req, res) => {
-        throw new Error('Error test successful.');
-    });
-}
 
 app.use( (req, res, next) => {
     // Your middleware goes here.
@@ -64,13 +47,31 @@ app.use( (req, res, next) => {
         useragent: req.headers['user-agent']
     }
 
-
     const stmt = db.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     const info = stmt.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, logdata.method,
         logdata.url, logdata.protocol, logdata.httpversion, logdata.status,
         logdata.referer, logdata.useragent);
-    next();
+    next()
 })
+
+if (args.log) {
+    const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('combined', { stream: accesslog }))
+  }
+
+  if (args.debug) {
+    app.get('/app/log/access', (req, res) => {
+        try {
+            const stmt = db.prepare('SELECT * FROM accesslog').all();
+            res.status(200).json(stmt);
+        } catch (e) {
+            console.error(e);
+        }
+    })
+    app.get('/app/error', (req, res) => {
+        throw new Error('Error test successful.');
+    })
+}
 // Use morgan for logging to files
 // Create a write stream to append (flags: 'a') to a file
 
