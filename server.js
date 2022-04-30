@@ -7,7 +7,8 @@ const port = argv["port"] || 5000
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+const morgan = require('morgan');
+const fs = require('fs');
 args['port', 'help', 'debug', 'log']
 console.log(args)
 const help = (`
@@ -31,6 +32,11 @@ if (args.help || args.h) {
     console.log(help)
     process.exit(0)
 }
+
+const debug = args.debug;
+const log = args.log;
+
+
 app.use( (req, res, next) => {
     // Your middleware goes here.
     let logdata = {
