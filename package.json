@@ -1,0 +1,19 @@
+{
+  "name": "a04-aaronliang12",
+  "version": "1.0.0",
+  "description": "databases,logs,errors,and middleware",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/comp426-2022-spring/a04-aaronliang12.git"
+  },
+  "author": "Aaron Liang",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/comp426-2022-spring/a04-aaronliang12/issues"
+  },
+  "homepage": "https://github.com/comp426-2022-spring/a04-aaronliang12#readme"
+}
