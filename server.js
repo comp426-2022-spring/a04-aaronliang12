@@ -36,6 +36,24 @@ if (args.help || args.h) {
 const debug = args.debug;
 const log = args.log;
 
+if (log == true) {
+    const accessLog = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('accesslog', { stream: accessLog }))
+  }
+
+  if (debug) {
+    app.get('/app/log/access', (req, res) => {
+        try {
+            const statement = database.prepare('SELECT * FROM accesslog').all();
+            res.status(200).json(statement);
+        } catch (e) {
+            console.error(e);
+        }
+    })
+    app.get('/app/error', (req, res) => {
+        throw new Error('Error test successful.');
+    })
+}
 
 app.use( (req, res, next) => {
     // Your middleware goes here.
