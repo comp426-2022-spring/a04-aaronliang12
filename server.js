@@ -35,7 +35,7 @@ const debug = args.debug || false
 const log = args.log || true;
 
 if (log == true) {
-    const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
+    const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
     app.use(morgan('combined', { stream: accesslog }))
   }
 
