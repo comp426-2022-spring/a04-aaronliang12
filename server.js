@@ -51,7 +51,7 @@ if (log == true) {
     })
     app.get('/app/error', (req, res) => {
         throw new Error('Error test successful.');
-    })
+    });
 }
 
 app.use( (req, res, next) => {
