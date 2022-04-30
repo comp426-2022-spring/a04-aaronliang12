@@ -70,7 +70,7 @@ app.use( (req, res, next) => {
     }
 
 
-    const statement = database.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    const statement = db.prepare('INSERT INTO accesslog (remoteaddr, remoteuser, time, method, url, protocol, httpversion, status, referer, useragent) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     const info = statement.run(logdata.remoteaddr, logdata.remoteuser, logdata.time, logdata.method,
         logdata.url, logdata.protocol, logdata.httpversion, logdata.status,
         logdata.referer, logdata.useragent);
