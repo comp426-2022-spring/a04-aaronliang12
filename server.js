@@ -32,8 +32,8 @@ if (args.help || args.h) {
     process.exit(0)
 }
 
-const debug = args.debug;
-const log = args.log;
+const debug = args.debug || false
+const log = args.log || true;
 
 if (log == true) {
     const accessLog = fs.createWriteStream('access.log', { flags: 'a' })
