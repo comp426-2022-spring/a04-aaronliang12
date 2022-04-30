@@ -8,7 +8,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const morgan = require('morgan');
 const fs = require('fs');
-const http = require('http')
 console.log(args)
 const help = (`
 server.js [options]
@@ -36,14 +35,14 @@ const debug = args.debug || false
 const log = args.log || true;
 
 if (log == true) {
-    const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
-    app.use(morgan('accesslog', { stream: accesslog }))
+    const WRITESTREAM = fs.createWriteStream('access.log', { flags: 'a' })
+    app.use(morgan('combined', { stream: accesslog }))
   }
 
   if (debug) {
     app.get('/app/log/access', (req, res) => {
         try {
-            const statement = database.prepare('SELECT * FROM accesslog').all();
+            const statement = db.prepare('SELECT * FROM accesslog').all();
             res.status(200).json(statement);
         } catch (e) {
             console.error(e);
